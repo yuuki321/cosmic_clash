@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser')
 const authService = require('./services/authService')
 const gameService = require('./services/gameService')
 const { GAME, AUTH } = require('./config/constants')
+const cors = require('cors')
+
+const port = process.env.PORT || 8000
 
 class GameServer {
   constructor() {
@@ -29,6 +32,15 @@ class GameServer {
   }
 
   setupMiddleware() {
+    // Allow cross-origin requests from GitHub Pages live demo and localhost
+    this.app.use(cors({
+      origin: [
+        'https://yuuki321.github.io', // your GitHub Pages site
+        'http://localhost:8000',      // local development
+        'http://localhost:3000'       // local dev (React, etc.)
+      ],
+      credentials: true
+    }))
     this.app.use(express.json())
     this.app.use(express.static('public'))
     this.app.use(cookieParser())
@@ -54,11 +66,15 @@ class GameServer {
         res.cookie('sessionToken', sessionToken, {
           maxAge: AUTH.COOKIE_MAX_AGE,
           httpOnly: true,
-          path: '/'
+          path: '/',
+          sameSite: 'None', // Allow cross-site cookies
+          secure: process.env.NODE_ENV === 'production' // only send cookie over HTTPS in production
         })
         res.cookie('username', username, {
           maxAge: AUTH.COOKIE_MAX_AGE,
-          path: '/'
+          path: '/',
+          sameSite: 'None',
+          secure: process.env.NODE_ENV === 'production'
         })
 
         res.json({ success: true })
@@ -79,15 +95,10 @@ class GameServer {
   }
 
   extractCookies(req) {
-    const cookies = req.headers.cookie?.split(';').reduce((acc, cookie) => {
-      const [key, value] = cookie.trim().split('=')
-      acc[key] = value
-      return acc
-    }, {})
-
+    // Use cookie-parser for easy access
     return {
-      sessionToken: cookies?.sessionToken,
-      username: cookies?.username
+      sessionToken: req.cookies?.sessionToken,
+      username: req.cookies?.username
     }
   }
 
@@ -222,7 +233,7 @@ class GameServer {
   }
 
   sendSoundToPlayer(playerId) {
-    io.emit('playLandmineSound', playerId) // Broadcast to all players
+    this.io.emit('playLandmineSound', playerId) // Broadcast to all players
   }
 
   startGameTimer() {
@@ -251,11 +262,15 @@ class GameServer {
 
   start(port) {
     this.server.listen(port, () => {
-      console.log(`Game server running on port ${port}`)
-      console.log(`Please paste this in your browser "http://localhost:8000"`)
+      const railwayUrl = process.env.RAILWAY_STATIC_URL || '';
+      if (railwayUrl) {
+        console.log(`Game server running on Railway at https://${railwayUrl}:${port}`)
+      } else {
+        console.log(`Game server running on http://localhost:${port}`)
+      }
     })
   }
 }
 
 const gameServer = new GameServer()
-gameServer.start(8000)
+gameServer.start(port)
