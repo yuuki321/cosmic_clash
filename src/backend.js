@@ -6,6 +6,7 @@ const authService = require('./services/authService')
 const gameService = require('./services/gameService')
 const { GAME, AUTH } = require('./config/constants')
 const cors = require('cors')
+const path = require('path')
 
 const port = process.env.PORT || 8000
 
@@ -24,6 +25,12 @@ class GameServer {
 
     this.players = {} // Store player data
     this.gameStarted = false // Track if the game has started
+    this.resetCount = 0
+    this.gameState = {
+      isRunning: false,
+      isOver: false,
+      hasStarted: false
+    }
 
     this.setupMiddleware()
     this.setupRoutes()
@@ -33,16 +40,21 @@ class GameServer {
 
   setupMiddleware() {
     // Allow cross-origin requests from GitHub Pages live demo and localhost
-    this.app.use(cors({
-      origin: [
-        'https://yuuki321.github.io', // your GitHub Pages site
-        'http://localhost:8000',      // local development
-        'http://localhost:3000'       // local dev (React, etc.)
-      ],
-      credentials: true
-    }))
+    this.app.use(
+      cors({
+        origin: [
+          'https://yuuki321.github.io', // your GitHub Pages site
+          'http://localhost:8000', // local development
+          'http://localhost:3000' // local dev (React, etc.)
+        ],
+        credentials: true
+      })
+    )
     this.app.use(express.json())
-    this.app.use(express.static('public'))
+
+    // IMPORTANT: serve static from absolute path (works in Railway and local)
+    this.app.use(express.static(path.join(__dirname, '../public')))
+
     this.app.use(cookieParser())
   }
 
@@ -147,9 +159,9 @@ class GameServer {
         }
       })
 
-      //recevie the request from the client to get the game state
+      // receive the request from the client to get the game state
       socket.on('getGameState', () => {
-        //send the game state to the client
+        // send the game state to the client
         socket.emit('stateToFrontend', {
           gameInitialized: this.gameInitialized,
           remainingTime: this.remainingTime,
@@ -190,7 +202,8 @@ class GameServer {
           resetCount: this.resetCount,
           gameState: this.gameState,
           players: gameService.getGameState().players,
-          projectiles: gameService.projectiles
+          projectiles: gameService.projectiles,
+          landmines: gameService.landmines
         })
 
         // Start new game timer
@@ -262,9 +275,11 @@ class GameServer {
 
   start(port) {
     this.server.listen(port, () => {
-      const railwayUrl = process.env.RAILWAY_STATIC_URL || '';
+      const railwayUrl = process.env.RAILWAY_STATIC_URL || ''
       if (railwayUrl) {
-        console.log(`Game server running on Railway at https://${railwayUrl}:${port}`)
+        console.log(
+          `Game server running on Railway at https://${railwayUrl}:${port}`
+        )
       } else {
         console.log(`Game server running on http://localhost:${port}`)
       }

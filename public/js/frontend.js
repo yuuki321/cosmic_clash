@@ -46,11 +46,11 @@ const x = canvas.width
 const y = canvas.height
 
 const frontEndPlayers = {}
-const frontEndProjectiles = {}
-const frontEndLandmines = {}
+let frontEndProjectiles = {}
+let frontEndLandmines = {}
 
 // Track speed boost state
-const gameState = {
+let gameState = {
   playerSpeedBoosts: {}
 }
 
@@ -68,6 +68,7 @@ timerEl.style.zIndex = '1000'
 // Add a variable to track if the game is over
 let isGameOver = false
 let eiofwhweiofhfweiho = false
+let currentResetCount = 0
 // Listen for timer updates from the server
 socket.on('updateTimer', (remainingTime) => {
   timerEl.textContent = `${remainingTime}s`
