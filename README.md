@@ -1,6 +1,7 @@
 # Cosmic Clash: Multiplayer Space Shooter
 
-
+## ❤️ Try Demo
+Click [here](https://yuuki321.github.io/cosmic_clash) to start the game!
 ## 🚀 Introduction
 
 Cosmic Clash is an exhilarating multiplayer space shooter game where players battle it out in a vast cosmic arena. Pilot your spaceship, dodge enemy fire, and become the ultimate space warrior!
