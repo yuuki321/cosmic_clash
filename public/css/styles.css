@@ -1,0 +1,187 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  margin: 0;
+  background: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+canvas {
+  width: 1024px;
+  height: 576px;
+  background-image: url('/img/webb-dark.png');
+}
+
+.game-container {
+  position: relative;
+}
+
+.leaderboard {
+  position: absolute;
+  color: white;
+  padding: 8px;
+  font-family: sans-serif;
+  font-size: 14px;
+  user-select: none;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.leaderboard-title {
+  margin-bottom: 8px;
+}
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+}
+
+.auth-box {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid #475569;
+  background: white;
+  color: #000;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+.btn-secondary {
+  background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+
+.countdown-timer { /* prevent being highlighted when clicked */
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+}
+
+.hidden {
+  display: none;
+}
+
+#startButton, #restartButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  font-size: 18px;
+  background-image: linear-gradient(
+    to right,
+    rgb(6, 182, 212),
+    rgb(59, 130, 246)
+  );
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s, background-image 0.3s;
+  z-index: 100;
+  width: auto;
+  white-space: nowrap;
+  margin-top: 90px;
+}
+
+#startButton:hover, #restartButton:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  background-image: linear-gradient(
+    to right,
+    rgb(59, 130, 246),
+    rgb(6, 182, 212)
+  );
+}
+
+.instructions {
+  font-size: 14px;
+  display: flex;
+}
+
+
+.instructions {
+  font-size: 14px;
+  display: flex;
+}
+
+.instructions h3 {
+  margin: 0 0 8px 0;
+  color: rgb(80, 2, 87);
+}
+.instructions ul {
+  margin: 0;
+  padding-left: 40px;
+}
+ .instructions li {
+   margin-bottom: 4px;
+   font-size: 20px;
+ }
+
+.btn-logout {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  background-color: #cc0000;
+}

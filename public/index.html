@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiplayer Warship Battle</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="icon" type="image/x-icon" href="/img/ship.png" />
+  </head>
+  <body>
+    <div class="game-container">
+      <button id="logoutButton" class="btn btn-logout" style="display: none">
+        Logout
+      </button>
+
+      <!-- Game Instructions -->
+      <div class="instructions">
+        <div class="rules">
+          <h3>Control:</h3>
+          <ul>
+            <li>⌨️Use AWSD to move</li>
+            <li>🖱️Mouse point on the correct direction</li>
+            <li>🖱️left click to launch projectile</li>
+          </ul>
+          <h3>Cheat Mode:</h3>
+          <ul>
+            <li>use SHIFT to speed up the projectile</li>
+          </ul>
+        </div>
+
+        <h3>Game Rules:</h3>
+        <ul>
+          <li>After all players join: press "Start"</li>
+          <li>Battle duration: 1 minute</li>
+          <li>+1 point per elimination</li>
+        </ul>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="leaderboard">
+        <div class="leaderboard-title">Leaderboard</div>
+        <div id="playerLabels"></div>
+      </div>
+
+      <canvas></canvas>
+      <div id="gameTimer" class="countdown-timer"></div>
+      <!-- Add the timer here -->
+
+      <!-- Auth Forms -->
+      <div id="loginContainer" class="auth-container">
+        <div class="auth-box">
+          <form id="loginForm" class="auth-form">
+            <div class="form-group">
+              <input
+                id="usernameInput"
+                type="text"
+                placeholder="Username"
+                class="auth-input"
+                required
+              />
+              <input
+                id="passwordInput"
+                type="password"
+                placeholder="Password"
+                class="auth-input"
+                required
+              />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </form>
+          <button id="showSignup" class="btn btn-secondary">
+            Need an account? Sign up
+          </button>
+        </div>
+      </div>
+
+      <div id="signupContainer" class="auth-container" style="display: none">
+        <div class="auth-box">
+          <form id="signupForm" class="auth-form">
+            <div class="form-group">
+              <input
+                id="signupUsername"
+                type="text"
+                placeholder="Username"
+                class="auth-input"
+                required
+              />
+              <input
+                id="signupPassword"
+                type="password"
+                placeholder="Password"
+                class="auth-input"
+                required
+              />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+          </form>
+          <button id="showLogin" class="btn btn-secondary">
+            Already have an account? Login
+          </button>
+        </div>
+      </div>
+
+      <button id="startButton" class="btn btn-primary" style="display: none">
+        After all player joined...Click to Start Game
+      </button>
+      <button id="restartButton" class="btn btn-primary" style="display: none">
+        Restart Game
+      </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.2/gsap.min.js"></script>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="./js/classes/Enemy.js"></script>
+    <script src="./js/classes/Player.js"></script>
+    <script src="./js/classes/Particle.js"></script>
+    <script src="./js/classes/Projectile.js"></script>
+    <script src="./js/classes/landmine.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/frontend.js"></script>
+    <script src="./js/eventListeners.js"></script>
+    <script src="./js/GameCountdown.js"></script>
+  </body>
+</html>
