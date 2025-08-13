@@ -8,6 +8,9 @@ class AuthManager {
     this.bgm = new Audio('../music/bgm.mp3')
     this.bgm.loop = true
 
+    // CHANGE THIS TO YOUR RAILWAY BACKEND URL!
+    this.backendUrl = 'https://cosmicclash-production.up.railway.app'
+
     document.addEventListener('DOMContentLoaded', () => {
       this.loginContainer = document.getElementById('loginContainer')
       this.signupContainer = document.getElementById('signupContainer')
@@ -65,8 +68,6 @@ class AuthManager {
 
     // Add start button listener
     this.startButton.addEventListener('click', () => {
-      // Do not hide the start button here
-      // this.startButton.style.display = 'none' // Remove this line
       socket.emit('startGame') // Emit 'startGame' event to server
     })
 
@@ -96,10 +97,11 @@ class AuthManager {
     const password = document.getElementById('passwordInput').value
 
     try {
-      const response = await fetch('/login', {
+      const response = await fetch(`${this.backendUrl}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
+        credentials: 'include'
       })
 
       if (response.ok) {
@@ -112,8 +114,6 @@ class AuthManager {
             this.remainingTime = remainingTime
             this.gameStarted = gameStarted
 
-            // Only show start button if game not initialized and restart button is hidden
-            // Move this check inside the callback
             if (
               !this.gameInitialized.gameStarted &&
               this.restartButton.style.display !== 'block'
@@ -143,7 +143,9 @@ class AuthManager {
 
   async checkSession() {
     try {
-      const response = await fetch('/check-session')
+      const response = await fetch(`${this.backendUrl}/check-session`, {
+        credentials: 'include'
+      })
       const data = await response.json()
 
       if (data.success) {
@@ -156,11 +158,6 @@ class AuthManager {
             this.gameInitialized = gameInitialized
             this.remainingTime = remainingTime
             this.gameStarted = gameStarted
-            console.log('gameStarted', this.gameStarted)
-            console.log('gameInitialized', this.gameInitialized)
-            console.log('remainingTime', this.remainingTime)
-
-            // Move this check inside the callback
             if (
               !this.gameInitialized.gameStarted &&
               this.restartButton.style.display !== 'block'
@@ -197,10 +194,11 @@ class AuthManager {
     const password = document.getElementById('signupPassword').value
 
     try {
-      const response = await fetch('/signup', {
+      const response = await fetch(`${this.backendUrl}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
+        credentials: 'include'
       })
 
       if (response.ok) {

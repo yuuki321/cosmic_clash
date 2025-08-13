@@ -3,7 +3,7 @@ const c = canvas.getContext('2d')
 //define the game is running or not
 let gameisrunning = false
 let coinmusic = new Audio('../music/coin.mp3')
-const socket = io()
+const socket = io('https://cosmicclash-production.up.railway.app', { transports: ['websocket'], withCredentials: true })
 
 const scoreEl = document.querySelector('#scoreEl')
 const startButton = document.getElementById('startButton')
